@@ -122,7 +122,7 @@ class DragonPageParser:
         for trainable_attack_soup in trainable_attacks_soup:
             name = trainable_attack_soup.text.split("\n")[2].strip()
             element = trainable_attack_soup.text.split("\n")[3].split("|")[1].strip()
-            damege = int(trainable_attack_soup.text.split("\n")[3].split("|")[0].replace("Damage:", "").strip())
+            damege = trainable_attack_soup.text.split("\n")[3].split("|")[0].replace("Damage:", "").strip()
             training_time = attack_training_time_to_seconds(trainable_attack_soup.text.split("\n")[3].split("|")[2].strip())
 
             if damege.isnumeric():
