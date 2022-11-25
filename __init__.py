@@ -1,1 +1,0 @@
-from .crawler.crawler import HeroicRacesCrawler
