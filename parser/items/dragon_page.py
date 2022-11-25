@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from typing import List, Union
 from datetime import datetime
-
-from ...config import (
+#...
+from config import (
     SECONDS_PER_DAY,
     SECONDS_PER_HOUR,
     SECONDS_PER_MINUTE
@@ -51,7 +51,7 @@ class DragonPageParser:
 
     def get_rarity(self) -> str:
         rarity_img = self.__page_soup.select_one("div.img_rar")
-        rarity = rarity_img.attrs["class"].split(" ")[0].split("_")[2].upper()
+        rarity = rarity_img.attrs["class"][0].split("_")[2].upper()
         return rarity
 
     def get_elements(self) -> List[str]:
@@ -60,7 +60,7 @@ class DragonPageParser:
         elements = []
 
         for element_soup in elements_soup:
-            abbreviated_element_name = element_soup.attrs["class"].split(" ")[1].split("_")[1]
+            abbreviated_element_name = element_soup.attrs["class"][1].split("_")[1]
             elements.append(DRAGON_ELEMENTS[abbreviated_element_name])
 
         return elements
@@ -131,14 +131,14 @@ class DragonPageParser:
     def get_strengths(self) -> List[str]:
         strengths_soup = self.__page_soup.select(".spc2+ .b_split .typ_i")
 
-        strengths = [ strength.attrs["class"].split(" ")[1].removeprefix("tb_") for strength in strengths_soup ]
+        strengths = [ strength.attrs["class"][1].removeprefix("tb_") for strength in strengths_soup ]
 
         return strengths
 
     def get_weaknesses(self) -> List[str]:
         weaknesses_soup = self.__page_soup.select(".b_split+ .b_split .typ_i")
 
-        weaknesses = [ weakness.attrs["class"].split(" ")[1].removeprefix("tb_") for weakness in weaknesses_soup ]
+        weaknesses = [ weakness.attrs["class"][1].removeprefix("tb_") for weakness in weaknesses_soup ]
 
         return weaknesses
 
@@ -177,4 +177,19 @@ class DragonPageParser:
         return
 
     def get_all(self) -> dict:
-        return {}
+        return {
+            "name": self.get_name(),
+            "rarity": self.get_rarity(),
+            "elements": self.get_elements(),
+            "image_url": self.get_image_url(),
+            "description": self.get_description(),
+            "attacks": {
+                "basic": self.get_basic_attacks(),
+                "trainable": self.get_trainable_attacks(),
+            },
+            "strengths": self.get_strengths(),
+            "weaknesses": self.get_weaknesses(),
+            "book_id": self.get_book_id(),
+            "category": self.get_category(),
+            "is_breedable": self.get_is_breedable(),
+        }
