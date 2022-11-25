@@ -41,6 +41,20 @@ DRAGON_RARITYS = {
     "h": "HEROIC"
 }
 
+def attack_training_time_to_seconds(attack_training_time: str) -> int:
+        if "hours" in attack_training_time:
+            if attack_training_time == "24 hours":
+                return 24 * SECONDS_PER_HOUR
+
+            hours = datetime.strptime(attack_training_time, "%H hours").hour
+
+            return hours * SECONDS_PER_HOUR
+        
+        elif "days" in attack_training_time:
+            days = datetime.strptime(attack_training_time, "%d days").day
+
+            return days * SECONDS_PER_DAY
+
 class DragonPageParser:
     def __init__(self, page_html: BeautifulSoup) -> None:
         self.__page_soup = BeautifulSoup(page_html, "html.parser")
@@ -84,7 +98,13 @@ class DragonPageParser:
         for basic_attack_soup in basic_attacks_soup:
             name = basic_attack_soup.text.split("\n")[2].strip()
             element = basic_attack_soup.text.split("\n")[3].split("|")[1].strip()
-            damege = int(basic_attack_soup.text.split("\n")[3].split("|")[0].replace("Damage:", "").strip())
+            damege = basic_attack_soup.text.split("\n")[3].split("|")[0].removeprefix("Damage:").strip()
+
+            if damege.isnumeric():
+                damege = int(damege)
+
+            else:
+                damege = None
 
             basic_attacks.append({
                 "name": name,
@@ -93,20 +113,6 @@ class DragonPageParser:
             })
 
         return basic_attacks
-
-    def __attack_training_time_to_seconds(self, attack_training_time: str) -> int:
-        if "hours" in attack_training_time:
-            if attack_training_time == "24 hours":
-                return 24 * 60 * 60
-
-            hours = datetime.strptime(attack_training_time, "%H hours").hour
-
-            return hours * SECONDS_PER_HOUR
-        
-        elif "days" in attack_training_time:
-            days = datetime.strptime(attack_training_time, "%d days").day
-
-            return days * SECONDS_PER_DAY
 
     def get_trainable_attacks(self) -> List[dict]:
         trainable_attacks_soup = self.__page_soup.select("div.b_split+ div.b_split div.att_hold")
@@ -117,7 +123,13 @@ class DragonPageParser:
             name = trainable_attack_soup.text.split("\n")[2].strip()
             element = trainable_attack_soup.text.split("\n")[3].split("|")[1].strip()
             damege = int(trainable_attack_soup.text.split("\n")[3].split("|")[0].replace("Damage:", "").strip())
-            training_time = self.__attack_training_time_to_seconds(trainable_attack_soup.text.split("\n")[3].split("|")[2].strip())
+            training_time = attack_training_time_to_seconds(trainable_attack_soup.text.split("\n")[3].split("|")[2].strip())
+
+            if damege.isnumeric():
+                damege = int(damege)
+
+            else:
+                damege = None
 
             trainable_attacks.append({
                 "name": name,

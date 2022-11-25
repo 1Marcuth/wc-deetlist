@@ -16,7 +16,7 @@ class HeroicRaceParser:
         dragons_soup = self.__island_soup.select("div.over")
 
         dragon_page_urls = [ 
-            dragon_soup.select_one("a").attrs["href"].replace("../../", "https://deetlist.com/")
+            dragon_soup.select_one("a").attrs["href"].replace("../../", "https://deetlist.com/dragoncity/")
             for dragon_soup in dragons_soup 
         ]
 

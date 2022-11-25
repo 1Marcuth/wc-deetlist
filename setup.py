@@ -5,7 +5,7 @@ with open("README.md", "r") as readme_bf:
 
 setup(
     name="wcdeetlist",
-    version="0.0.0.3.4",
+    version="0.0.0.3.5",
     license="MIT License",
     author="Marcuth",
     long_description=readme_content,
