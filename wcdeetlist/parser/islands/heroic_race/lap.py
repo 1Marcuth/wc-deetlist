@@ -16,7 +16,7 @@ class LapParser:
     def get_lap_nodes(self) -> List[dict]:
         nodes_soup = self.lap_soup.select("div.nn")
 
-        nodes = [ NodeParser(node_soup) for node_soup in nodes_soup ]
+        nodes = [ NodeParser(node_soup).get_all() for node_soup in nodes_soup ]
 
         return nodes
 

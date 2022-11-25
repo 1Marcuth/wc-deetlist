@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from typing import Union, List
 from datetime import datetime
-#....
-from config import (
+
+from ....config import (
     MINUTES_PER_HOUR,
     SECONDS_PER_DAY,
     SECONDS_PER_HOUR,
@@ -13,18 +13,22 @@ MISSON_TYPES = {
     "Collect Food": "food",
     "Battle Dragons": "battle",
     "Hatch Eggs": "hatch",
+    "Breed Dragons": "breed",
     "Feed Dragons": "feed",
     "League Battles": "pvp",
-    "Collect Gold": "gold"
+    "Collect Gold": "gold",
 }
 
-def pool_time_to_seconds(self, pool_time: str) -> int:
+def pool_time_to_seconds(pool_time: str) -> int:
         pool_time = pool_time.lower()
 
         if pool_time == "instant" or pool_time == "no minimum":
             return 0
         
         if "minutes" in pool_time:
+            if "60" in pool_time:
+                return 60 * SECONDS_PER_MINUTE
+                
             minutes = datetime.strptime(pool_time, "%M minutes").minute
             return minutes * SECONDS_PER_MINUTE
 
@@ -82,7 +86,7 @@ class MissionParser:
 
     def get_total_pool_time(self) -> int:
         total_pool_time = self.info_divs[4].text
-        total_pool_time_seconds = self.__convert_pool_time_to_seconds(total_pool_time)
+        total_pool_time_seconds = pool_time_to_seconds(total_pool_time)
         return total_pool_time_seconds
 
     def get_all(self) -> dict:
