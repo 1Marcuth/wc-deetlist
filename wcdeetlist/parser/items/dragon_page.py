@@ -55,6 +55,24 @@ def attack_training_time_to_seconds(attack_training_time: str) -> int:
 
             return days * SECONDS_PER_DAY
 
+def summon_or_breed_time_to_secounds(summon_or_breed_time: str):
+    time = summon_or_breed_time.split(":")[1].split("(")[1].removesuffix(")")
+
+    if "Hours" in summon_or_breed_time:
+        hours = int(time.removesuffix(" Hours"))
+        return hours * SECONDS_PER_HOUR
+
+    elif "hr" in summon_or_breed_time and "min" in summon_or_breed_time:
+        times = datetime.strptime(time, "%Hhr %Mmin")
+        hours = times.hour
+        minutes = times.minute
+
+        return (minutes * SECONDS_PER_MINUTE) + (hours * SECONDS_PER_HOUR)
+
+    else:
+        raise Exception("Valor inesperado em summon or breed time")
+
+
 class DragonPageParser:
     def __init__(self, page_html: BeautifulSoup) -> None:
         self.__page_soup = BeautifulSoup(page_html, "html.parser")
@@ -163,8 +181,8 @@ class DragonPageParser:
     def get_is_breedable(self) -> bool:
         return self.__page_soup.select_one("#br .dt").text == "Yes"
 
-    def get_breed_time(self) -> int:
-        return
+    def get_summmon_breed_time(self) -> int:
+        return summon_or_breed_time_to_secounds(self.__page_soup.select_one("#bt").text)
 
     def get_buy_price(self) -> dict:
         return {
