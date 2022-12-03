@@ -1,1 +1,1 @@
-from .dragon_page import DragonPageCrawler
+from .dragon import DragonPageCrawler

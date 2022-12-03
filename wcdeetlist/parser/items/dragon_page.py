@@ -9,11 +9,11 @@ from ...config import (
 )
 
 DRAGON_ELEMENTS = {
-    "w": "water",
-    "p": "plant",
-    "f": "fire",
+    "w": "sea",
+    "p": "nature",
+    "f": "flame",
     "d": "dark",
-    "e": "earth",
+    "e": "terra",
     "el": "electric",
     "m": "metal",
     "i": "ice",
@@ -163,12 +163,20 @@ class DragonPageParser:
 
         strengths = [ strength.attrs["class"][1].removeprefix("tb_") for strength in strengths_soup ]
 
+        for i, strength in enumerate(strengths):
+            if strength in DRAGON_ELEMENTS:
+                strengths[i] = DRAGON_ELEMENTS[strength]
+
         return strengths
 
     def get_weaknesses(self) -> List[str]:
         weaknesses_soup = self.__page_soup.select(".b_split+ .b_split .typ_i")
 
         weaknesses = [ weakness.attrs["class"][1].removeprefix("tb_") for weakness in weaknesses_soup ]
+
+        for i, weakness in enumerate(weaknesses):
+            if weakness in DRAGON_ELEMENTS:
+                weaknesses[i] = DRAGON_ELEMENTS[weakness]
 
         return weaknesses
 
