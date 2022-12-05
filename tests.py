@@ -1,10 +1,7 @@
-# from wcdeetlist.crawler import DragonPageCrawler
-# from wcdeetlist.parser import DragonPageParser
+from wcdeetlist.tools import get_all_dragons_full_data
+import json
 
-# html = DragonPageCrawler("https://deetlist.com/dragoncity/dragon/Bone").get_html()
-# data = DragonPageParser(html).get_all()
+dragons = get_all_dragons_full_data()
 
-# print(data)
-
-from wcdeetlist.crawler import AllDragonsCrawler
-from wcdeetlist.parser import AllDragonsParser
+with open("dragons.json", "w+") as buffer:
+    json.dump(heroic_race_data, buffer)

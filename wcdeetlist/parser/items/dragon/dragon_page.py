@@ -180,8 +180,11 @@ class DragonPageParser:
 
         return weaknesses
 
-    def get_book_id(self) -> int:
-        return int(self.__page_soup.select_one("#did .dt").text)
+    def get_book_id(self) -> int | None:
+        id = self.__page_soup.select_one("#did .dt").text
+        
+        if id != "":
+            return int(id)
 
     def get_category(self) -> int:
         return int(self.__page_soup.select_one("#dc .dt").text)
