@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from typing import List, Union
 from datetime import datetime
 
-from ...config import (
+from ....config import (
     SECONDS_PER_DAY,
     SECONDS_PER_HOUR,
     SECONDS_PER_MINUTE

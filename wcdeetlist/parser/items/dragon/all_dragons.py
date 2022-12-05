@@ -20,4 +20,19 @@ class AllDragonsParser:
         ]
 
     def get_all(self) -> list[dict]:
-        pass
+        dragon_infos = []
+
+        names = self.get_names()
+        page_urls = self.get_page_urls()
+        img_urls = self.get_img_urls()
+
+        for name, page_url, img_url in zip(names, page_urls, img_urls):
+            dragon_info = {
+                "name": name,
+                "page_url": page_url,
+                "img_url": img_url
+            }
+
+            dragon_infos.append(dragon_info)
+        
+        return dragon_infos

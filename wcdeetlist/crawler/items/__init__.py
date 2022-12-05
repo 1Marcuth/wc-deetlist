@@ -1,1 +1,5 @@
-from .dragon import DragonPageCrawler
+from .dragon import (
+    DragonPageCrawler,
+    AllDragonsCrawler,
+    NewDragonsCrawler
+)
