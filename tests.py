@@ -1,7 +1,5 @@
-from wcdeetlist.tools import get_all_dragons_full_data
-import json
+from wcdeetlist.tools import get_heroic_race_full_data
 
-dragons = get_all_dragons_full_data()
+heroic_race_data = get_heroic_race_full_data()
 
-with open("dragons.json", "w+") as buffer:
-    json.dump(heroic_race_data, buffer)
+print(heroic_race_data)

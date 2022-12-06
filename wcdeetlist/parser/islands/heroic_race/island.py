@@ -2,6 +2,7 @@ from typing import List, Union
 from bs4 import BeautifulSoup
 
 from .lap import LapParser
+from ....config import SECONDS_PER_DAY
 
 class HeroicRaceParser:
     def __init__(self, html: Union[str, bytes]) -> None:
@@ -9,7 +10,7 @@ class HeroicRaceParser:
 
     def get_island_duration(self) -> int:
         island_duration_txt = self.__island_soup.select_one("div.dur_text").text
-        island_duration = int(island_duration_txt.replace("This event lasts", "").replace("days", ""))
+        island_duration = int(island_duration_txt.strip().removeprefix("This event lasts").removesuffix("days")) * SECONDS_PER_DAY
         return island_duration
 
     def get_dragon_page_urls(self) -> List[dict]:
