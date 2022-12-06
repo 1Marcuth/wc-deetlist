@@ -1,5 +1,7 @@
-from wcdeetlist.tools import get_heroic_race_full_data
+from wcdeetlist.crawler import NewDragonsCrawler
+from wcdeetlist.parser import NewDragonsParser
 
-heroic_race_data = get_heroic_race_full_data()
+html = NewDragonsCrawler().get_html()
+data = NewDragonsParser(html).get_all()
 
-print(heroic_race_data)
+print(data)

@@ -1,1 +1,1 @@
-from .dragon import DragonPageParser, AllDragonsParser
+from .dragon import DragonPageParser, AllDragonsParser, NewDragonsParser
