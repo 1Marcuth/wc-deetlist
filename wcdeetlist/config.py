@@ -16,3 +16,5 @@ DEETLIST_URLS = {
         "HEROIC": "https://deetlist.com/dragoncity/dragons/report/all_heroic.php"
     }
 }
+
+DC_LOCALIZATION_ENDPOINT = "https://sp-translations.socialpointgames.com/deploy/dc/android/prod/dc_android_{}_prod_wetd46pWuR8J5CmS.json"
