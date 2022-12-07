@@ -10,7 +10,7 @@ class NewDragonsParser:
     def get_names(self) -> list[str]:
         return [ name.text for name in self.__page_soup.select(".rn") ]
 
-    def get_released_at(self) -> list[int]:
+    def get_releases_in(self) -> list[int]:
         return [ int(time.text) for time in self.__page_soup.select(".rt") ]
 
     def get_raritys(self) -> list[str]:
@@ -28,10 +28,31 @@ class NewDragonsParser:
 
         return img_urls
 
+    def get_page_urls(self) -> list[str]:
+        img_urls = self.get_img_urls()
+
+        page_urls = [ img_url.replace("img/", "").replace("%20", "_").removesuffix(".png") for img_url in img_urls ]
+
+        return page_urls
+
     def get_all(self):
-        return {
-            "names": self.get_names(),
-            "relansed_at": self.get_released_at(),
-            "img_urls": self.get_img_urls(),
-            "raritys": self.get_raritys()
-        }
+        names = self.get_names()
+        raritys = self.get_raritys()
+        relanses_in = self.get_releases_in()
+        img_urls = self.get_img_urls()
+        page_urls = self.get_page_urls()
+
+        dragons = []
+
+        for name,  rarity, released_in, img_url, page_url in zip(names, raritys, relanses_in, img_urls, page_urls):
+            dragon_info = {
+                "name": name,
+                "rarity": rarity,
+                "relased_in": released_in,
+                "img_url": img_url,
+                "page_url": page_url,
+            }
+
+            dragons.append(dragon_info)
+
+        return dragons    
