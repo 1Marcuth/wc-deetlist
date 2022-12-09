@@ -1,7 +1,7 @@
 from ..crawler import (
     AllDragonsCrawler,
     DragonPageCrawler,
-    HeroicRacesCrawler
+    HeroicRaceCrawler
 )
 from ..parser import (
     AllDragonsParser,
@@ -30,7 +30,7 @@ def get_all_dragons_full_data():
     return dragons
 
 def get_heroic_race_data():
-    html = HeroicRacesCrawler().get_html()
+    html = HeroicRaceCrawler().get_html()
     data = HeroicRaceParser(html).get_all()
 
     return data

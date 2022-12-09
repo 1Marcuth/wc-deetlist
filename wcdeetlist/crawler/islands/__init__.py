@@ -1,1 +1,1 @@
-from .heroic_race import HeroicRacesCrawler
+from .heroic_race import HeroicRaceCrawler

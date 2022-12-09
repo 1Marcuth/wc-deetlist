@@ -1,6 +1,6 @@
 from ..crawler import WebCrawler
 
-class HeroicRacesCrawler(WebCrawler):
+class HeroicRaceCrawler(WebCrawler):
     __url = "https://deetlist.com/dragoncity/events/race/"
 
     def __init__(
