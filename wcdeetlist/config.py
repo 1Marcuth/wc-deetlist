@@ -18,3 +18,36 @@ DEETLIST_URLS = {
 }
 
 DC_LOCALIZATION_ENDPOINT = "https://sp-translations.socialpointgames.com/deploy/dc/android/prod/dc_android_{}_prod_wetd46pWuR8J5CmS.json"
+
+DRAGON_ELEMENTS = {
+    "w": "sea",
+    "p": "nature",
+    "f": "flame",
+    "d": "dark",
+    "e": "terra",
+    "el": "electric",
+    "m": "metal",
+    "i": "ice",
+    "wr": "war",
+    "l": "legend",
+    "li": "light",
+    "pu": "pure",
+    "bt": "beauty",
+    "ch": "chaos",
+    "mg": "magic",
+    "hp": "happy",
+    "dr": "dream",
+    "so": "soul",
+    "pr": "primal",
+    "wd": "wind",
+    "ti": "time"
+}
+
+DRAGON_RARITYS = {
+    "c": "COMMON",
+    "r": "RARE",
+    "v": "VERY_RARE",
+    "e": "EPIC",
+    "l": "LEGENDARY",
+    "h": "HEROIC"
+}

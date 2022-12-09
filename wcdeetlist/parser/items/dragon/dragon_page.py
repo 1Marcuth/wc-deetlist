@@ -5,41 +5,10 @@ from datetime import datetime
 from ....config import (
     SECONDS_PER_DAY,
     SECONDS_PER_HOUR,
-    SECONDS_PER_MINUTE
+    SECONDS_PER_MINUTE,
+    DRAGON_ELEMENTS,
+    DRAGON_RARITYS
 )
-
-DRAGON_ELEMENTS = {
-    "w": "sea",
-    "p": "nature",
-    "f": "flame",
-    "d": "dark",
-    "e": "terra",
-    "el": "electric",
-    "m": "metal",
-    "i": "ice",
-    "wr": "war",
-    "l": "legend",
-    "li": "light",
-    "pu": "pure",
-    "bt": "beauty",
-    "ch": "chaos",
-    "mg": "magic",
-    "hp": "happy",
-    "dr": "dream",
-    "so": "soul",
-    "pr": "primal",
-    "wd": "wind",
-    "ti": "time"
-}
-
-DRAGON_RARITYS = {
-    "c": "COMMON",
-    "r": "RARE",
-    "v": "VERY_RARE",
-    "e": "EPIC",
-    "l": "LEGENDARY",
-    "h": "HEROIC"
-}
 
 def attack_training_time_to_seconds(attack_training_time: str) -> int:
         if "hours" in attack_training_time:
@@ -74,7 +43,7 @@ def summon_or_breed_time_to_secounds(summon_or_breed_time: str):
 
 
 class DragonPageParser:
-    def __init__(self, page_html: BeautifulSoup) -> None:
+    def __init__(self, page_html: str | bytes) -> None:
         self.__page_soup = BeautifulSoup(page_html, "html.parser")
 
     def get_name(self) -> str:
@@ -195,29 +164,29 @@ class DragonPageParser:
     def get_summmon_breed_time(self) -> int:
         return summon_or_breed_time_to_secounds(self.__page_soup.select_one("#bt").text)
 
-    def get_buy_price(self) -> dict:
+    def get_buy_price(self) -> dict:####
         return {
 
         }
 
-    def get_hatch_time(self) -> int:
+    def get_hatch_time(self) -> int:####
         return
 
-    def get_xp_on_hatch(self) -> int:
+    def get_xp_on_hatch(self) -> int:####
         return
 
-    def get_release_date(self) -> int:
+    def get_release_date(self) -> int:####
         return
 
-    def get_sell_price(self) -> int:
+    def get_sell_price(self) -> int:####
         return {
             
         }
 
-    def get_starting_income_of_gold(self) -> int:
+    def get_starting_income_of_gold(self) -> int:####
         return
 
-    def get_all(self) -> dict:
+    def get_all(self) -> dict:###
         return {
             "name": self.get_name(),
             "rarity": self.get_rarity(),
