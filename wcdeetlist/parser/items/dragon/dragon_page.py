@@ -196,6 +196,11 @@ class DragonPageParser:
         else:
             raise Exception("Valor inesperado no preço do dragão")
 
+        return {
+            "type": type_,
+            "price": price
+        }
+
     def get_hatch_time(self) -> int:
         return TimeParser().hatch_time(self.__page_soup.select_one("#ht .dt").text)
 
@@ -206,8 +211,23 @@ class DragonPageParser:
         return
 
     def get_sell_price(self) -> int:####
+        price, type_ = self.__page_soup.select_one("#sp .dt").text.split(" ")
+
+        price = int(price)
+
+        match type_:
+            case "Gems":
+                type_ = "gems"
+
+            case "Gold":
+                type_ = "gold"
+        
+        else:
+            raise Exception("Valor inesperado no preço do dragão")
+
         return {
-            
+            "type": type_,
+            "price": price
         }
 
     def get_starting_income_of_gold(self) -> int:####
