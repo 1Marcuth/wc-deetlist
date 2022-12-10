@@ -10,7 +10,39 @@ from ....config import (
     DRAGON_RARITYS
 )
 
-def attack_training_time_to_seconds(attack_training_time: str) -> int:
+class TimeParser:
+    def breed_time(raw_time: str) -> int:
+        time = summon_or_breed_time.split(":")[1].split("(")[1].removesuffix(")")
+
+        if "Hours" in summon_or_breed_time:
+            hours = int(time.removesuffix(" Hours"))
+            return hours * SECONDS_PER_HOUR
+
+        elif "hr" in summon_or_breed_time and "min" in summon_or_breed_time:
+            times = datetime.strptime(time, "%Hhr %Mmin")
+            hours = times.hour
+            minutes = times.minute
+
+            return (minutes * SECONDS_PER_MINUTE) + (hours * SECONDS_PER_HOUR)
+
+        else:
+            raise Exception("Valor inesperado em TimeParser > breed_time")
+    
+    def summon_time(raw_time: str) -> int:
+        try:
+            return self.breed_time(raw_time)
+
+        except:
+            raise Exception("Valor inesperado em TimeParser > summon_time")
+
+    def hatch_time(raw_time: str) -> int:
+        try:
+            return self.breed_time(raw_time)
+
+        except:
+            raise Exception("Valor inesperado em TimeParser > hatch_time")
+
+    def attack_training_time(raw_time: str) -> int:
         if "hours" in attack_training_time:
             if attack_training_time == "24 hours":
                 return 24 * SECONDS_PER_HOUR
@@ -24,23 +56,8 @@ def attack_training_time_to_seconds(attack_training_time: str) -> int:
 
             return days * SECONDS_PER_DAY
 
-def summon_or_breed_time_to_secounds(summon_or_breed_time: str):
-    time = summon_or_breed_time.split(":")[1].split("(")[1].removesuffix(")")
-
-    if "Hours" in summon_or_breed_time:
-        hours = int(time.removesuffix(" Hours"))
-        return hours * SECONDS_PER_HOUR
-
-    elif "hr" in summon_or_breed_time and "min" in summon_or_breed_time:
-        times = datetime.strptime(time, "%Hhr %Mmin")
-        hours = times.hour
-        minutes = times.minute
-
-        return (minutes * SECONDS_PER_MINUTE) + (hours * SECONDS_PER_HOUR)
-
-    else:
-        raise Exception("Valor inesperado em summon or breed time")
-
+        else:
+            raise Exception("Valor inesperado em TimeParser > training_time")
 
 class DragonPageParser:
     def __init__(self, page_html: str | bytes) -> None:
@@ -162,20 +179,30 @@ class DragonPageParser:
         return self.__page_soup.select_one("#br .dt").text == "Yes"
 
     def get_summmon_breed_time(self) -> int:
-        return summon_or_breed_time_to_secounds(self.__page_soup.select_one("#bt").text)
+        return TimeParser().breed_time(self.__page_soup.select_one("#bt").text)
 
     def get_buy_price(self) -> dict:####
-        return {
+        price, type_ = self.__page_soup.select_one("#bp .dt").text.split(" ")
 
-        }
+        price = int(price)
 
-    def get_hatch_time(self) -> int:####
-        return
+        match type_:
+            case "Gems":
+                type_ = "gems"
 
-    def get_xp_on_hatch(self) -> int:####
-        return
+            case "Gold":
+                type_ = "gold"
+        
+        else:
+            raise Exception("Valor inesperado no preço do dragão")
 
-    def get_release_date(self) -> int:####
+    def get_hatch_time(self) -> int:
+        return TimeParser().hatch_time(self.__page_soup.select_one("#ht .dt").text)
+
+    def get_xp_on_hatch(self) -> int:
+        return int(self.__page_soup.select_one("#hx .dt").text)
+
+    def get_release_date(self) -> int:
         return
 
     def get_sell_price(self) -> int:####
