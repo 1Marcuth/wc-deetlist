@@ -43,16 +43,16 @@ class TimeParser:
             raise Exception("Valor inesperado em TimeParser > hatch_time")
 
     def attack_training_time(raw_time: str) -> int:
-        if "hours" in attack_training_time:
-            if attack_training_time == "24 hours":
+        if "hours" in raw_time:
+            if raw_time == "24 hours":
                 return 24 * SECONDS_PER_HOUR
 
-            hours = datetime.strptime(attack_training_time, "%H hours").hour
+            hours = datetime.strptime(raw_time, "%H hours").hour
 
             return hours * SECONDS_PER_HOUR
         
-        elif "days" in attack_training_time:
-            days = datetime.strptime(attack_training_time, "%d days").day
+        elif "days" in raw_time:
+            days = datetime.strptime(raw_time, "%d days").day
 
             return days * SECONDS_PER_DAY
 
@@ -127,7 +127,7 @@ class DragonPageParser:
             name = trainable_attack_soup.text.split("\n")[2].strip()
             element = trainable_attack_soup.text.split("\n")[3].split("|")[1].strip()
             damege = trainable_attack_soup.text.split("\n")[3].split("|")[0].replace("Damage:", "").strip()
-            training_time = attack_training_time_to_seconds(trainable_attack_soup.text.split("\n")[3].split("|")[2].strip())
+            training_time = TimeParser.attack_training_time(trainable_attack_soup.text.split("\n")[3].split("|")[2].strip())
 
             if damege.isnumeric():
                 damege = int(damege)
@@ -185,16 +185,7 @@ class DragonPageParser:
         price, type_ = self.__page_soup.select_one("#bp .dt").text.split(" ")
 
         price = int(price)
-
-        match type_:
-            case "Gems":
-                type_ = "gems"
-
-            case "Gold":
-                type_ = "gold"
-        
-        else:
-            raise Exception("Valor inesperado no preço do dragão")
+        type_ = type.lower()
 
         return {
             "type": type_,
@@ -214,17 +205,8 @@ class DragonPageParser:
         price, type_ = self.__page_soup.select_one("#sp .dt").text.split(" ")
 
         price = int(price)
-
-        match type_:
-            case "Gems":
-                type_ = "gems"
-
-            case "Gold":
-                type_ = "gold"
+        type_ = type.lower()
         
-        else:
-            raise Exception("Valor inesperado no preço do dragão")
-
         return {
             "type": type_,
             "price": price
